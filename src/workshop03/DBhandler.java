@@ -44,7 +44,7 @@ public class DBhandler {
 
     }
 
-    public static List readList(String name) throws IOException{
+    public static List<String> readList(String name) throws IOException{
 
         File file = new File("cartdb/%s.txt".formatted(name));
         List<String> output = new LinkedList();
