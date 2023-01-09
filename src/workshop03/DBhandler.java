@@ -13,15 +13,15 @@ import java.util.List;
 
 public class DBhandler {
     
-    public static void createNew(String name){
+    public static void LogIn(String name){
 
         File file = new File("cartdb/%s.txt".formatted(name));
 
         try {
             if (file.createNewFile()){
-                System.out.println("File created");
+                System.out.println("Cart created. Cart loaded");
             } else {
-                System.out.println("file exists");
+                System.out.println("Cart exists. Cart loaded");
             }
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -30,33 +30,42 @@ public class DBhandler {
 
     }
 
-    public static void saveList(String name) throws IOException{
+    public static void saveList(String name, List<String> textToAdd) throws IOException{
 
         File file = new File("cartdb/%s.txt".formatted(name));
-        String str = "Hello";
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file,true));
-        writer.append(str);
         
-        writer.append("\n");
-        writer.append("test");
-
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        
+        for(String item:textToAdd){
+            writer.append(item+"\n");
+        }
+        
         writer.close();
 
     }
 
-    public static List<String> readList(String name) throws IOException{
+    public static List<String> readList(String name){
 
         File file = new File("cartdb/%s.txt".formatted(name));
         List<String> output = new LinkedList();
         String readLine = null;
 
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        
-        while((readLine = reader.readLine())!=null){
-            output.add(readLine);
-        }
 
-        reader.close();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+
+            while ((readLine = reader.readLine()) != null) {
+                output.add(readLine);
+            }
+
+            reader.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         return output;
     }

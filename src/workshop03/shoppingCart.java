@@ -11,12 +11,16 @@ public class shoppingCart{
         
         List<String> shoppingList = new LinkedList<>();
         String choice="";
+        
+        String user="";
         Scanner in = new Scanner(System.in);
 
         while(!choice.equals("exit")){
             
             System.out.println("""
                     Welcome. Enter:
+                    -load "Name"
+                    -save "Name"
                     -list
                     -add item, item, item
                     -delete number
@@ -27,6 +31,23 @@ public class shoppingCart{
             choice = in.next().trim().toLowerCase();
 
             switch(choice){
+                case "load":{
+                    user = in.next();
+                    DBhandler.LogIn(user);
+
+                    shoppingList = DBhandler.readList(user);
+                    break;
+                }
+
+                case "save":{
+                    try{
+                        DBhandler.saveList(user, shoppingList);
+                    } catch (Exception e){
+
+                    }
+                    break;
+                }
+
                 case "list":{
                     int itemNo = 1;
 
@@ -37,28 +58,8 @@ public class shoppingCart{
                     break;
                 }
 
-                case "addtest":{
-                    //String items = in.nextLine();
-                    Scanner itemSplitter = new Scanner(in.nextLine());
-                    itemSplitter.useDelimiter(",");
-                    
-                    while(itemSplitter.hasNext()){
-                        String item = itemSplitter.next().trim().toLowerCase();
-                        
-                        if(shoppingList.contains(item)){
-                            System.out.printf("List already contains %s!\n",item);
-                        } else{
-                            shoppingList.add(item);
-                            System.out.printf("%s was added!\n",item);
-                        }
-                    }
-
-                    break;
-                }
-
                 case "add":{
-                    String items = in.nextLine();
-                    Scanner itemSplitter = new Scanner(items);
+                    Scanner itemSplitter = new Scanner(in.nextLine());
                     itemSplitter.useDelimiter(",");
                     
                     while(itemSplitter.hasNext()){
@@ -77,8 +78,7 @@ public class shoppingCart{
 
                 case "deletemult":{
 
-                    String numbers = in.nextLine();
-                    Scanner numberSplitter = new Scanner(numbers);
+                    Scanner numberSplitter = new Scanner(in.nextLine());
                     numberSplitter.useDelimiter(",");
                     List<Integer> listToDelete = new LinkedList<>();
 
@@ -142,6 +142,7 @@ public class shoppingCart{
                 }
                 default:{
                     System.out.println("Enter a valid choice");
+                    in.nextLine();
                     break;
                 }
             }
