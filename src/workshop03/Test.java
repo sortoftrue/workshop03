@@ -8,15 +8,17 @@ public class Test {
     
     public static void main(String[] args) {
         
-        //current list of items being worked on.
-        List<String> currentList = new LinkedList<>();
 
-    
+        String output = "output";
+        String input;
 
-    
+        CartServer server = new CartServer();
 
-        System.out.println(currentList);
+        server.openServer();
 
+        input = server.readInput();
+
+        System.out.println(input);
     }
 
 }
