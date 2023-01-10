@@ -1,27 +1,29 @@
 package workshop03;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class shoppingCart{
+public class shoppingCartMain{
 
     public static void main(String[] args) {
         
         //Setup Server
+        String dbPath = args[0];
+        int port = Integer.parseInt(args[1]);
         CartServer server = new CartServer();
-        server.openServer(3000);
+        server.openServer(port);
 
         List<String> shoppingList = new LinkedList<>();
-        String dbPath = "cartdb";
         String input;
-        String user="";
+        
 
         while(true){
             server.waitConn();
-
+            String user="";
             String choice="";
 
             while(!choice.equals("exit")){
@@ -58,7 +60,7 @@ public class shoppingCart{
                         System.out.println("Loading user");
                         user = in.next();
                         //user = "Fred";
-                        DBhandler.LogIn("cartdb",user);
+                        DBhandler.LogIn(dbPath,user);
     
                         shoppingList = DBhandler.readList(dbPath,user);
     
@@ -68,13 +70,12 @@ public class shoppingCart{
                     }
     
                     case "save":{
-                        
                         if (user.equals("")){
                             server.sendOutput("No cart loaded!");
                             break;
                         }
                         try{
-                            DBhandler.saveList(dbPath,user, shoppingList);
+                            DBhandler.saveList(dbPath, user, shoppingList);
                         } catch (Exception e){
     
                         }
@@ -135,6 +136,7 @@ public class shoppingCart{
                                 }
                             } catch (Exception e){
                                 System.out.println("Non-integer entered!");
+                                output += String.format("Non-integer entered!");
                             }
                            
                         }

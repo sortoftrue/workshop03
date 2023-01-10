@@ -7,18 +7,26 @@ import java.util.List;
 public class Test {
     
     public static void main(String[] args) {
-        
 
         String output = "output";
         String input;
+        String choice ="";
 
         CartServer server = new CartServer();
 
-        server.openServer();
+        server.openServer(3000);
 
-        input = server.readInput();
+        while(!choice.equals("exit")){
 
-        System.out.println(input);
+            input = server.readInput();
+
+            if(input.equals("exit")) break;
+
+            System.out.println(input);
+
+            server.sendOutput("return message");
+        }
+        
     }
 
 }

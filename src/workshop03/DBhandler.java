@@ -13,9 +13,9 @@ import java.util.List;
 
 public class DBhandler {
     
-    public static void LogIn(String name){
+    public static void LogIn(String dbPath, String name){
 
-        File file = new File("cartdb/%s.txt".formatted(name));
+        File file = new File("%s/%s.txt".formatted(dbPath,name));
 
         try {
             if (file.createNewFile()){
@@ -30,9 +30,22 @@ public class DBhandler {
 
     }
 
-    public static void saveList(String name, List<String> textToAdd) throws IOException{
+    public static String listFiles(String dbPath){
+        String output="";
 
-        File file = new File("cartdb/%s.txt".formatted(name));
+        File cartPath = new File("%s".formatted(dbPath));
+        File[] files = cartPath.listFiles();
+
+        for(File file: files){
+            output+=file.getName() + "\n";
+        }
+
+        return output;
+    }
+
+    public static void saveList(String dbPath, String name, List<String> textToAdd) throws IOException{
+
+        File file = new File("%s/%s.txt".formatted(dbPath,name));
         
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         
@@ -44,9 +57,9 @@ public class DBhandler {
 
     }
 
-    public static List<String> readList(String name){
+    public static List<String> readList(String dbPath, String name){
 
-        File file = new File("cartdb/%s.txt".formatted(name));
+        File file = new File("%s/%s.txt".formatted(dbPath,name));
         List<String> output = new LinkedList();
         String readLine = null;
 
