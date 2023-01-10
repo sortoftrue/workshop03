@@ -182,6 +182,7 @@ public class shoppingCartMain{
     
                     case "exit":{
                         System.out.println("Bye");
+                        server.sendOutput("Bye!");
                         break;
                     }
                     default:{

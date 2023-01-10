@@ -61,12 +61,14 @@ public class ClientMain {
                 }
             }
             
-            if(isExit) break;
+            
             
             //READ-IN
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             String received = ois.readUTF();
             System.out.println(received);
+
+            if(isExit) break;
         }
         
     }
